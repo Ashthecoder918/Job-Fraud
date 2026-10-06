@@ -1,8 +1,0 @@
-job_id,title,location,department,salary_range,employment_type,required_experience,required_education,industry,function
-1,Data Scientist,New York,Data,"$90,000-$120,000",Full-time,Mid-Senior level,Bachelor's Degree,Tech,Data Analysis
-2,Software Engineer,San Francisco,Engineering,"$100,000-$130,000",Full-time,Entry level,Bachelor's Degree,Tech,Software Development
-3,Sales Associate,Chicago,Sales,"$40,000-$60,000",Part-time,Associate,High School,Retail,Sales
-4,Marketing Analyst,Remote,Marketing,"$50,000-$70,000",Full-time,Mid-Senior level,Bachelor's Degree,Marketing,Marketing
-5,Product Manager,Los Angeles,Product,"$110,000-$140,000",Full-time,Director,Master's Degree,Tech,Product Management
-6,Business Analyst,Boston,Business,"$80,000-$100,000",Full-time,Mid-Senior level,Bachelor's Degree,Finance,Business Strategy
-7,HR Coordinator,Remote,HR,"$45,000-$55,000",Contract,Associate,Bachelor's Degree,HR,Human Resources
