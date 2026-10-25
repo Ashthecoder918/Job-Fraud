@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f4f6ef" />
+  <title>Spot the Scam — Job Listing Check</title>
+  <style>
+    :root {
+      --page: #f4f6ef;
+      --panel: #ffffff;
+      --panel-soft: #f8f9f5;
+      --ink: #192b24;
+      --muted: #64746c;
+      --line: #e1e7df;
+      --green: #2e774f;
+      --green-dark: #194c36;
+      --green-soft: #e7f2e9;
+      --amber: #986316;
+      --amber-soft: #fff3d9;
+      --red: #bb3b37;
+      --red-soft: #fde9e6;
+      --shadow: 0 18px 55px rgba(30, 54, 41, .08);
+      --radius-xl: 26px;
+      --radius-lg: 17px;
+      --radius-md: 12px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 82% 2%, rgba(201, 222, 194, .55), transparent 25rem), var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    button, input, select { font: inherit; }
+    button, select { cursor: pointer; }
+    .shell { width: min(1180px, calc(100% - 36px)); margin: 0 auto; padding: 26px 0 44px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 30px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark { display: grid; place-items: center; width: 45px; height: 45px; flex: 0 0 auto; border-radius: 15px; color: white; background: var(--green); box-shadow: 0 8px 18px rgba(36,107,75,.2); }
+    .brand-mark svg { width: 25px; height: 25px; }
+    .brand-name { font-size: 1.02rem; font-weight: 780; letter-spacing: -.035em; }
+    .brand-caption { color: var(--muted); font-size: .78rem; margin-top: 2px; }
+    .top-chip { display: inline-flex; align-items: center; gap: 8px; color: var(--green-dark); border: 1px solid #d7e5d7; background: rgba(255,255,255,.7); border-radius: 999px; padding: 9px 13px; font-size: .8rem; font-weight: 650; white-space: nowrap; }
+    .top-chip span { width: 7px; height: 7px; border-radius: 50%; background: #46925d; box-shadow: 0 0 0 4px #e2f1e5; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(250px, .75fr); gap: 22px; align-items: stretch; margin-bottom: 24px; }
+    .hero-main { padding: clamp(26px, 4.2vw, 48px); border-radius: var(--radius-xl); background: var(--green-dark); color: white; position: relative; overflow: hidden; min-height: 250px; }
+    .hero-main:after { content: ""; position: absolute; width: 290px; height: 290px; right: -65px; bottom: -175px; border: 1px solid rgba(255,255,255,.13); border-radius: 50%; box-shadow: 0 0 0 26px rgba(255,255,255,.035), 0 0 0 54px rgba(255,255,255,.025); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #d6ead9; text-transform: uppercase; letter-spacing: .13em; font-size: .7rem; font-weight: 800; margin-bottom: 15px; }
+    .eyebrow:before { content: ""; height: 2px; width: 23px; border-radius: 2px; background: #a9d0ac; }
+    h1 { position: relative; z-index: 1; max-width: 590px; margin: 0; font-size: clamp(2.2rem, 5vw, 3.55rem); line-height: 1.02; letter-spacing: -.065em; font-weight: 760; }
+    .hero-main p { max-width: 490px; position: relative; z-index: 1; margin: 17px 0 0; color: #d4e4d8; font-size: .98rem; }
+    .hero-side { padding: 24px; border-radius: var(--radius-xl); background: rgba(255,255,255,.8); border: 1px solid rgba(220,229,218,.9); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 30px rgba(30,54,41,.035); }
+    .mini-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .11em; color: var(--muted); font-weight: 800; }
+    .shield-illustration { display: flex; align-items: center; justify-content: center; width: 66px; height: 66px; margin: 18px 0 15px; border-radius: 22px; background: var(--green-soft); color: var(--green); }
+    .shield-illustration svg { width: 37px; height: 37px; }
+    .hero-side h2 { margin: 0; font-size: 1.17rem; letter-spacing: -.035em; }
+    .hero-side p { margin: 7px 0 0; color: var(--muted); font-size: .87rem; }
+    .privacy-note { display: flex; align-items: flex-start; gap: 8px; border-top: 1px solid var(--line); margin-top: 22px; padding-top: 15px; color: var(--muted); font-size: .75rem; }
+    .privacy-note svg { width: 16px; flex: 0 0 auto; margin-top: 1px; }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(290px, .78fr); align-items: start; gap: 23px; }
+    .form-card, .result-card { border-radius: var(--radius-xl); background: var(--panel); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .form-card { padding: clamp(20px, 3.2vw, 34px); }
+    .section-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 25px; }
+    .section-heading h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.045em; }
+    .section-heading p { margin: 6px 0 0; color: var(--muted); font-size: .88rem; }
+    .required-note { color: var(--muted); font-size: .74rem; white-space: nowrap; margin-top: 4px; }
+    .field-section { padding-top: 22px; margin-top: 22px; border-top: 1px solid #edf0eb; }
+    .field-section:first-of-type { padding-top: 0; margin-top: 0; border-top: 0; }
+    .field-section-title { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+    .section-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; flex: 0 0 auto; color: var(--green); background: var(--green-soft); }
+    .section-icon svg { width: 17px; height: 17px; }
+    .field-section-title h3 { margin: 0; font-size: .96rem; letter-spacing: -.02em; }
+    .field-section-title p { margin: 2px 0 0; color: var(--muted); font-size: .77rem; }
+    .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 14px; }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+    label { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 7px; color: #2a3c33; font-size: .81rem; font-weight: 730; }
+    .label-hint { color: #869189; font-weight: 500; font-size: .7rem; }
+    input, select { display: block; width: 100%; min-height: 47px; border: 1px solid #dce4db; border-radius: var(--radius-md); background: #fcfdfb; color: var(--ink); outline: none; padding: 11px 13px; transition: border-color .18s ease, box-shadow .18s ease, background .18s ease; }
+    select { padding-right: 34px; }
+    input:hover, select:hover { border-color: #b8cdbb; }
+    input:focus, select:focus { border-color: #4e9069; box-shadow: 0 0 0 3px rgba(78,144,105,.13); background: white; }
+    input[aria-invalid="true"], select[aria-invalid="true"] { border-color: #c83320; box-shadow: 0 0 0 3px rgba(214,107,98,.1); }
+    .help { color: #78867e; margin: 6px 0 0; font-size: .72rem; line-height: 1.4; }
+    .error { color: var(--red); margin: 5px 0 0; font-size: .73rem; min-height: 0; }
+    .error:empty { display: none; }
+    .score-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .score-head output { border-radius: 7px; background: #edf4ed; color: var(--green-dark); padding: 2px 7px; font-size: .73rem; font-weight: 800; }
+    input[type="range"] { min-height: auto; padding: 0; margin: 12px 0 3px; accent-color: var(--green); border: 0; background: transparent; box-shadow: none; }
+    .range-scale { display: flex; justify-content: space-between; color: #8a948e; font-size: .67rem; }
+    .actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+    .btn { min-height: 48px; border: 0; border-radius: 13px; padding: 12px 18px; display: inline-flex; justify-content: center; align-items: center; gap: 9px; font-weight: 760; font-size: .87rem; transition: transform .15s ease, background .15s ease, box-shadow .15s ease; }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary { color: white; background: var(--green); box-shadow: 0 7px 16px rgba(36,107,75,.18); flex: 1; }
+    .btn-primary:hover { background: #1d5b3e; box-shadow: 0 10px 20px rgba(36,107,75,.22); }
+    .btn-primary:disabled { cursor: wait; opacity: .75; }
+    .btn-secondary { color: #34473c; background: #f0f4ed; }
+    .btn-secondary:hover { background: #e5ede2; }
+    .btn svg { width: 17px; height: 17px; }
+    .result-card { position: sticky; top: 18px; overflow: hidden; }
+    .result-top { padding: 25px 24px 21px; border-bottom: 1px solid var(--line); background: linear-gradient(135deg, #fbfcf8, #f2f7ef); }
+    .result-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .result-topline h2 { margin: 0; font-size: 1rem; letter-spacing: -.025em; }
+    .status-dot { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; font-size: .68rem; color: #657269; background: #e8ede6; border-radius: 999px; font-weight: 750; }
+    .status-dot:before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #98a79a; }
+    .result-placeholder { padding: 30px 0 23px; text-align: center; }
+    .result-art { width: 94px; height: 94px; display: grid; place-items: center; margin: 0 auto 18px; border-radius: 29px; background: #e6f0e4; color: var(--green); transform: rotate(-5deg); }
+    .result-art svg { width: 50px; height: 50px; transform: rotate(5deg); }
+    .result-placeholder h3 { margin: 0; font-size: 1.1rem; letter-spacing: -.035em; }
+    .result-placeholder p { max-width: 250px; margin: 8px auto 0; color: var(--muted); font-size: .82rem; }
+    .result-details { display: none; }
+    .result-details.show { display: block; }
+    .verdict { padding: 20px; margin: 20px 20px 0; border-radius: 16px; background: #f0f4ed; border: 1px solid #e1e8dc; }
+    .verdict[data-tone="safe"] { background: var(--green-soft); border-color: #d1e5d3; }
+    .verdict[data-tone="risk"] { background: var(--red-soft); border-color: #f1d1cd; }
+    .verdict[data-tone="caution"] { background: var(--amber-soft); border-color: #f0dfb6; }
+    .verdict-label { font-size: .69rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 850; color: var(--muted); }
+    .verdict h3 { margin: 8px 0 0; font-size: 1.28rem; letter-spacing: -.04em; }
+    .verdict p { margin: 6px 0 0; font-size: .8rem; color: #52645a; overflow-wrap: anywhere; }
+    .result-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 20px 18px; }
+    .metric { border: 1px solid var(--line); border-radius: 13px; padding: 12px; min-width: 0; }
+    .metric span { display: block; color: var(--muted); font-size: .7rem; }
+    .metric strong { display: block; margin-top: 5px; font-size: .98rem; letter-spacing: -.02em; overflow-wrap: anywhere; }
+    .response-area { padding: 0 20px 20px; }
+    details { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    summary { padding: 11px 13px; color: #536359; font-size: .76rem; font-weight: 750; cursor: pointer; }
+    pre { margin: 0; padding: 13px; max-height: 260px; overflow: auto; background: #17271f; color: #d8edda; font-size: .72rem; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .result-footer { padding: 15px 22px; border-top: 1px solid var(--line); color: #7a887e; font-size: .72rem; display: flex; gap: 8px; align-items: flex-start; }
+    .result-footer svg { width: 15px; flex: 0 0 auto; }
+    .toast { display: none; margin-top: 13px; padding: 12px 14px; border-radius: 12px; font-size: .8rem; overflow-wrap: anywhere; }
+    .toast.show { display: block; }
+    .toast.error-toast { background: #fff0ee; border: 1px solid #f2d2ce; color: #d63734; }
+    .toast.info-toast { background: #edf5ed; border: 1px solid #d8e8d6; color: #315a3e; }
+    .footnote { text-align: center; color: #89948b; font-size: .73rem; margin: 22px 0 0; }
+    .spin { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.5); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-main { min-height: auto; }
+      .hero-side { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 18px; }
+      .shield-illustration { grid-row: span 2; margin: 0; }
+      .hero-side .privacy-note { grid-column: 1 / -1; }
+      .workspace { grid-template-columns: 1fr; }
+      .result-card { position: static; }
+    }
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 22px, 1180px); padding-top: 15px; }
+      .topbar { margin-bottom: 20px; }
+      .top-chip { font-size: .68rem; padding: 8px 9px; }
+      .brand-caption { font-size: .7rem; }
+      .brand-mark { width: 40px; height: 40px; border-radius: 13px; }
+      .hero { gap: 12px; margin-bottom: 14px; }
+      .hero-main { padding: 27px 23px 30px; border-radius: 21px; }
+      h1 { font-size: clamp(2.25rem, 12vw, 3.1rem); }
+      .hero-main p { font-size: .9rem; }
+      .hero-side { padding: 18px; border-radius: 21px; }
+      .form-card { padding: 20px 16px; border-radius: 21px; }
+      .section-heading { display: block; margin-bottom: 22px; }
+      .required-note { display: block; margin-top: 8px; }
+      .field-grid { grid-template-columns: 1fr; gap: 14px; }
+      .field.full { grid-column: auto; }
+      .field-section { padding-top: 19px; margin-top: 19px; }
+      .actions { display: grid; grid-template-columns: 1fr; }
+      .btn-primary { grid-row: 1; }
+      .btn-secondary { width: 100%; }
+      .result-top { padding: 21px 19px 17px; }
+      .verdict { margin: 16px 15px 0; }
+      .result-metrics { padding: 12px 15px 16px; }
+      .response-area { padding: 0 15px 16px; }
+      .result-footer { padding: 13px 17px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *:before, *:after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5.2c0 5.1-3.4 8.4-8 9.8-4.6-1.4-8-4.7-8-9.8V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>
+        </div>
+        <div><div class="brand-name">Spot the Scam</div><div class="brand-caption">Job listing risk assessment</div></div>
+      </div>
+      <div class="top-chip"><span></span> Model-powered screening</div>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-main">
+        <div class="eyebrow">Make your next move a smart one</div>
+        <h1 id="hero-title">A closer look at every opportunity.</h1>
+        <p>Review the signals behind a job or internship listing before you decide to apply. Enter the listing details for detection.</p>
+      </div>
+      <aside class="hero-side">
+        <div class="mini-label">A little diligence goes a long way</div>
+        <div class="shield-illustration" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 6v5.2c0 5.1-3.4 8.4-8 9.8-4.6-1.4-8-4.7-8-9.8V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></div>
+        <div><h2>Check the signals, not just the promises.</h2><p>Company footprint, fees, compensation and suspicious wording can all help provide context.</p></div>
+        <div class="privacy-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Contact the employer for further surity.</span></div>
+      </aside>
+    </section>
+
+    <section class="workspace">
+      <form class="form-card" id="prediction-form" novalidate>
+        <div class="section-heading">
+          <div><h2>Listing details</h2><p>Provide the available details to assess the listing.</p></div>
+          <div class="required-note">* Required fields</div>
+        </div>
+
+        <section class="field-section">
+          <div class="field-section-title"><div class="section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3M3 12h18M10 12v2h4v-2"/></svg></div><div><h3>Opportunity profile</h3><p>Role type and company background</p></div></div>
+          <div class="field-grid">
+            <div class="field"><label for="employment_type">Employment type <span class="label-hint">* required</span></label><select id="employment_type" name="employment_type" required><option value="" selected disabled>Select role type</option><option value="0">Internship</option><option value="1">Contract</option><option value="2">Part-time</option><option value="3">Full-time</option></select><p class="error" data-error="employment_type"></p></div>
+            <div class="field"><label for="company_size">Company size <span class="label-hint">* required</span></label><select id="company_size" name="company_size" required><option value="" selected disabled>Select company size</option><option value="0">Startup</option><option value="1">Small</option><option value="2">Medium</option><option value="3">Enterprise</option></select><p class="error" data-error="company_size"></p></div>
+            <div class="field"><label for="company_age">Company age <span class="label-hint">Years · integer</span></label><input id="company_age" name="company_age" type="number" min="0" step="1" placeholder="e.g. 5" required /><p class="help">Enter 0 for a newly established company.</p><p class="error" data-error="company_age"></p></div>
+          </div>
+        </section>
+
+        <section class="field-section">
+          <div class="field-section-title"><div class="section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg></div><div><h3>Company trust signals</h3><p>Online presence and verification</p></div></div>
+          <div class="field-grid">
+            <div class="field"><label for="linkedin_presence">Company on LinkedIn?</label><select id="linkedin_presence" name="linkedin_presence" required><option value="" selected disabled>Choose an answer</option><option value="1">Yes</option><option value="0">No</option></select><p class="error" data-error="linkedin_presence"></p></div>
+            <div class="field"><label for="website_available">Company website available?</label><select id="website_available" name="website_available" required><option value="" selected disabled>Choose an answer</option><option value="1">Yes</option><option value="0">No</option></select><p class="error" data-error="website_available"></p></div>
+            <div class="field"><label for="verification_status">Company verified?</label><select id="verification_status" name="verification_status" required><option value="" selected disabled>Choose an answer</option><option value="1">Yes</option><option value="0">No</option></select><p class="help">Is there any kind of verification tag visible on the job post ?</p><p class="error" data-error="verification_status"></p></div>
+            <div class="field"><label for="suspicious_email_domain">Suspicious email domain?</label><select id="suspicious_email_domain" name="suspicious_email_domain" required><option value="" selected disabled>Choose an answer</option><option value="1">Yes / suspicious</option><option value="0">No / not suspicious</option></select><p class="error" data-error="suspicious_email_domain"></p></div>
+          </div>
+        </section>
+
+        <section class="field-section">
+          <div class="field-section-title"><div class="section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></div><div><h3>Compensation & fees</h3><p>Enter amounts in Indian rupees rounded to integer value</p></div></div>
+          <div class="field-grid">
+            <div class="field"><label for="stipend">Stipend</label><input id="stipend" name="stipend" type="number" min="0" step="any" placeholder="e.g. 12000" required /><p class="help">Enter 0 if no stipend is offered.</p><p class="error" data-error="stipend"></p></div>
+            <div class="field"><label for="registration_fee">Registration fee</label><input id="registration_fee" name="registration_fee" type="number" min="0" step="any" placeholder="e.g. 0" required /><p class="help">Enter 0 if no fee is requested.</p><p class="error" data-error="registration_fee"></p></div>
+          </div>
+        </section>
+
+        <section class="field-section">
+          <div class="field-section-title"><div class="section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 10h11M4 15h16M4 20h9"/></svg></div><div><h3>Language signals</h3><p>Estimate the percentage of words matching each signal (0–100)</p></div></div>
+          <div class="field-grid">
+            <div class="field"><div class="score-head"><label for="vague_description_score">Vague description score</label><output id="vague_description_score_out">0%</output></div><input id="vague_description_score" name="vague_description_score" type="range" min="0" max="100" step="any" value="0" required /><div class="range-scale"><span>0%</span><span>100%</span></div><p class="help">Proportion of unclear or vague words.</p><p class="error" data-error="vague_description_score"></p></div>
+            <div class="field"><div class="score-head"><label for="urgency_score">Urgency score</label><output id="urgency_score_out">0%</output></div><input id="urgency_score" name="urgency_score" type="range" min="0" max="100" step="any" value="0" required /><div class="range-scale"><span>0%</span><span>100%</span></div><p class="help">Proportion of words pushing immediate action.</p><p class="error" data-error="urgency_score"></p></div>
+            <div class="field full"><div class="score-head"><label for="keyword_spam_score">Keyword spam score</label><output id="keyword_spam_score_out">0%</output></div><input id="keyword_spam_score" name="keyword_spam_score" type="range" min="0" max="100" step="any" value="0" required /><div class="range-scale"><span>0%</span><span>100%</span></div><p class="help">Proportion of words considered suspicious or spam-like.</p><p class="error" data-error="keyword_spam_score"></p></div>
+          </div>
+        </section>
+
+        <div id="form-message" class="toast" role="alert" aria-live="polite"></div>
+        <div class="actions">
+          <button class="btn btn-primary" id="submit-btn" type="submit"><span>Assess this listing</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="btn btn-secondary" id="sample-btn" type="button">Load sample</button>
+          <button class="btn btn-secondary" id="reset-btn" type="reset">Reset form</button>
+        </div>
+      </form>
+
+      <aside class="result-card" aria-live="polite">
+        <div class="result-top"><div class="result-topline"><h2>Assessment result</h2><span class="status-dot" id="result-status">Awaiting input</span></div>
+          <div class="result-placeholder" id="result-placeholder"><div class="result-art" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M24 5 40 11v10.4c0 10.1-6.8 16.7-16 19.6C14.8 38.1 8 31.5 8 21.4V11L24 5Z"/><path d="m16.5 23 5 5 10-11"/></svg></div><h3>Your result will appear here</h3><p>Complete the listing details and access the result.</p></div>
+        </div>
+        <div class="result-details" id="result-details">
+          <div class="verdict" id="verdict" data-tone="neutral"><div class="verdict-label">Model prediction</div><h3 id="verdict-title">Prediction received</h3><p id="verdict-description">Review the model output below.</p></div>
+          <div class="result-metrics"><div class="metric"><span>Predicted class</span><strong id="metric-class">—</strong></div><div class="metric"><span>Confidence / probability</span><strong id="metric-confidence">—</strong></div></div>
+          <div class="response-area"><details><summary>View raw API response</summary><pre id="raw-response">No response received yet.</pre></details></div>
+        </div>
+        <div class="result-footer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>This tool provides a screening signal only. Never pay an unexpected fee or share sensitive information without independently verifying the employer.</span></div>
+      </aside>
+    </section>
+    <p class="footnote">Built for transparent, careful job-search decisions.</p>
+  </main>
+
+  <script>
+    // 1) Change this URL if your FastAPI server uses a different host or route.
+    const PREDICT_URL = "http://127.0.0.1:8000/predict";
+
+    // 2) Confirm these labels match your model's encoded target classes.
+    // If your model uses the opposite mapping, switch the descriptions below.
+    const CLASS_LABELS = {
+      0: { title: "Lower-risk signal", description: "The model assigned this listing to safe . Still verify the employer independently.", tone: "safe" },
+      1: { title: "Potentially suspicious", description: "The model assigned this listing to risk. Review the listing carefully before proceeding.", tone: "risk" }
+    };
+
+    const form = document.getElementById("prediction-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const message = document.getElementById("form-message");
+    const placeholder = document.getElementById("result-placeholder");
+    const resultDetails = document.getElementById("result-details");
+    const resultStatus = document.getElementById("result-status");
+
+    const numericFields = {
+      company_age: { type: "integer", min: 0, label: "Company age" },
+      stipend: { type: "number", min: 0, label: "Stipend" },
+      registration_fee: { type: "number", min: 0, label: "Registration fee" },
+      vague_description_score: { type: "number", min: 0, max: 100, label: "Vague description score" },
+      urgency_score: { type: "number", min: 0, max: 100, label: "Urgency score" },
+      keyword_spam_score: { type: "number", min: 0, max: 100, label: "Keyword spam score" }
+    };
+    const categoricalFields = ["employment_type", "company_size", "linkedin_presence", "website_available", "verification_status", "suspicious_email_domain"];
+
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = "toast show " + (type === "error" ? "error-toast" : "info-toast");
+    }
+    function clearMessage() { message.textContent = ""; message.className = "toast"; }
+    function setFieldError(name, text) {
+      const field = document.getElementById(name);
+      const error = document.querySelector('[data-error="' + name + '"]');
+      if (field) field.setAttribute("aria-invalid", text ? "true" : "false");
+      if (error) error.textContent = text || "";
+    }
+    function clearErrors() {
+      [...form.querySelectorAll("[name]")].forEach(el => setFieldError(el.name, ""));
+    }
+    function readPayload() {
+      clearErrors();
+      clearMessage();
+      const payload = {};
+      let firstInvalid = null;
+      categoricalFields.forEach(name => {
+        const raw = document.getElementById(name).value;
+        if (raw === "") {
+          setFieldError(name, "Please choose an option.");
+          firstInvalid ||= document.getElementById(name);
+        } else {
+          const value = Number(raw);
+          if (!Number.isInteger(value) || value < 0 || (name === "employment_type" || name === "company_size" ? value > 3 : value > 1)) {
+            setFieldError(name, "Select a valid option.");
+            firstInvalid ||= document.getElementById(name);
+          } else payload[name] = value;
+        }
+      });
+      Object.entries(numericFields).forEach(([name, rules]) => {
+        const field = document.getElementById(name);
+        const raw = field.value.trim();
+        if (raw === "") {
+          setFieldError(name, "This field is required. Enter 0 if none.");
+          firstInvalid ||= field;
+          return;
+        }
+        const value = Number(raw);
+        let error = "";
+        if (!Number.isFinite(value)) error = "Enter a valid number.";
+        else if (value < rules.min) error = "Value must be at least " + rules.min + ".";
+        else if (rules.max !== undefined && value > rules.max) error = "Value must be no more than " + rules.max + ".";
+        else if (rules.type === "integer" && !Number.isInteger(value)) error = "Enter a whole number of years.";
+        setFieldError(name, error);
+        if (error) firstInvalid ||= field;
+        else payload[name] = value;
+      });
+      if (firstInvalid) {
+        showMessage("Please correct the highlighted fields before submitting.", "error");
+        firstInvalid.focus();
+        return null;
+      }
+      return payload;
+    }
+    function formatProbability(value) {
+      if (value === null || value === undefined || value === "") return "—";
+      const n = Number(value);
+      if (!Number.isFinite(n)) return String(value);
+      return (n <= 1 ? n * 100 : n).toLocaleString(undefined, { maximumFractionDigits: 2 }) + "%";
+    }
+    function getFirst(obj, keys) {
+      for (const key of keys) if (obj && obj[key] !== undefined && obj[key] !== null) return obj[key];
+      return undefined;
+    }
+    function renderResult(data) {
+      placeholder.style.display = "none";
+      resultDetails.classList.add("show");
+      document.getElementById("raw-response").textContent = JSON.stringify(data, null, 2);
+      const prediction = getFirst(data, ["prediction", "predicted_class", "class", "label", "result", "output"]);
+      const predText = prediction === undefined ? "Prediction received" : String(prediction);
+      const normalized = typeof prediction === "number" || (typeof prediction === "string" && /^-?\d+$/.test(prediction.trim())) ? Number(prediction) : null;
+      const confidence = getFirst(data, ["confidence", "probability", "prob", "score", "prediction_probability"]);
+      const probabilityList = getFirst(data, ["probabilities", "class_probabilities"]);
+      let confidenceValue = confidence;
+      if (confidenceValue === undefined && Array.isArray(probabilityList) && probabilityList.length) confidenceValue = Math.max(...probabilityList.map(Number).filter(Number.isFinite));
+      if (confidenceValue === undefined && probabilityList && typeof probabilityList === "object") {
+        const vals = Object.values(probabilityList).map(Number).filter(Number.isFinite);
+        if (vals.length) confidenceValue = Math.max(...vals);
+      }
+      const mapped = normalized !== null ? CLASS_LABELS[normalized] : null;
+      const labelText = typeof prediction === "string" && normalized === null ? prediction : (mapped ? mapped.title : "Prediction received");
+      document.getElementById("verdict-title").textContent = labelText;
+      document.getElementById("verdict-description").textContent = mapped ? mapped.description : "The model returned a response. Check the raw API response to confirm how its output should be interpreted.";
+      document.getElementById("metric-class").textContent = predText;
+      document.getElementById("metric-confidence").textContent = formatProbability(confidenceValue);
+      document.getElementById("verdict").dataset.tone = mapped ? mapped.tone : "caution";
+      resultStatus.textContent = "Response received";
+      resultStatus.style.color = "#246b4b";
+      resultStatus.style.background = "#e2f1e5";
+    }
+    function resetResult() {
+      resultDetails.classList.remove("show");
+      placeholder.style.display = "block";
+      resultStatus.textContent = "Awaiting input";
+      resultStatus.style.color = "";
+      resultStatus.style.background = "";
+      clearMessage();
+      clearErrors();
+    }
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const payload = readPayload();
+      if (!payload) return;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spin" aria-hidden="true"></span><span>Assessing listing…</span>';
+      resultStatus.textContent = "Connecting…";
+      clearMessage();
+      try {
+        const response = await fetch(PREDICT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const bodyText = await response.text();
+        let data;
+        try { data = bodyText ? JSON.parse(bodyText) : {}; }
+        catch { data = { raw_response: bodyText }; }
+        if (!response.ok) {
+          const detail = data && (data.detail || data.message || data.error);
+          throw new Error("API error " + response.status + (detail ? ": " + (typeof detail === "string" ? detail : JSON.stringify(detail)) : ". Check your FastAPI logs."));
+        }
+        renderResult(data);
+        showMessage("Assessment completed successfully.", "info");
+      } catch (error) {
+        resultStatus.textContent = "Connection failed";
+        resultStatus.style.color = "#a63b38";
+        resultStatus.style.background = "#fde9e6";
+        const isFetchError = error instanceof TypeError;
+        showMessage(isFetchError ? "Could not reach the API. Check that FastAPI is running at " + PREDICT_URL + " and that CORS allows this page's origin." : error.message, "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Assess this listing</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      }
+    });
+
+    const rangeNames = ["vague_description_score", "urgency_score", "keyword_spam_score"];
+    rangeNames.forEach(name => {
+      const input = document.getElementById(name);
+      const output = document.getElementById(name + "_out");
+      const update = () => output.value = input.value + "%";
+      input.addEventListener("input", update);
+      update();
+    });
+
+    document.getElementById("sample-btn").addEventListener("click", () => {
+      const sample = {
+        employment_type: "0", company_size: "1", company_age: "4", linkedin_presence: "1",
+        website_available: "1", verification_status: "1", stipend: "12000", registration_fee: "0",
+        vague_description_score: "12", urgency_score: "18", keyword_spam_score: "9", suspicious_email_domain: "0"
+      };
+      Object.entries(sample).forEach(([name, value]) => { document.getElementById(name).value = value; });
+      rangeNames.forEach(name => document.getElementById(name + "_out").value = document.getElementById(name).value + "%");
+      clearErrors(); clearMessage();
+    });
+    document.getElementById("reset-btn").addEventListener("click", () => setTimeout(() => {
+      rangeNames.forEach(name => document.getElementById(name + "_out").value = document.getElementById(name).value + "%");
+      resetResult();
+    }, 0));
+  </script>
+</body>
+</html>
