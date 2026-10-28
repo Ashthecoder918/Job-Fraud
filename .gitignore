@@ -1,5 +1,14 @@
 Internship_dataset.csv
 quality_feat_dataset.csv
-.pyc
-.gitattributes
-.csv
+*.pyc
+*.csv
+.docker/
+docker-compose.override.yml
+glassfish~/
+tomcat~/
+*.log
+.env
+.env.local
+.env.*.local
+.generate-dockerignore
+Frontend/index-clone.html

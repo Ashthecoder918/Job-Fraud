@@ -1,0 +1,35 @@
+# Ignore Git history
+.git
+.gitignore
+
+# Ignore Docker files themselves inside the container
+Dockerfile
+Dockerfile*
+.dockerignore
+
+# Ignore heavy local dependencies 
+node_modules/
+jspm_packages/
+.venv/
+venv/
+ENV/
+bin/
+obj/
+
+# Ignore local secrets and configuration environments
+.env
+.env.*
+*.pem
+*.key
+config/master.key
+
+# Ignore local IDE settings and system junk
+.cfignore
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.DS_Store

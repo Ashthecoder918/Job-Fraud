@@ -267,11 +267,9 @@
   </main>
 
   <script>
-    // 1) Change this URL if your FastAPI server uses a different host or route.
+
     const PREDICT_URL = "http://127.0.0.1:8000/predict";
 
-    // 2) Confirm these labels match your model's encoded target classes.
-    // If your model uses the opposite mapping, switch the descriptions below.
     const CLASS_LABELS = {
       0: { title: "Lower-risk signal", description: "The model assigned this listing to safe . Still verify the employer independently.", tone: "safe" },
       1: { title: "Potentially suspicious", description: "The model assigned this listing to risk. Review the listing carefully before proceeding.", tone: "risk" }

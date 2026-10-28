@@ -19,7 +19,7 @@ async def lifespan(app:FastAPI):
     with open('trained_model/scaler.pkl','rb') as f:
         scaler=pickle.load(f)
     model=FraudDetector(12)
-    model.load_state_dict(torch.load('trained_model/fraud_detection_model.pt',map_location=device))
+    model.load_state_dict(torch.load('trained_model/fraud_detection_model.pt',map_location=device,weights_only=True))
     model.to(device)
     model.eval()
 
@@ -37,12 +37,7 @@ app=FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5000",
-        "http://127.0.0.1:5000",
-        "http://localhost:5500",
-        "http://127.0.0.1:5500",
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
