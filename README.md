@@ -1,67 +1,47 @@
-::: {align="center"}
+<div align="center">
+
 # JobFraud
 
-### Fraudlent Job Posting Detection System
+### Fraudulent Job Posting Detection System
 
-A machine learning web application that analyzes job-posting features
-and predicts whether a listing is **potentially fraudulent or
-legitimate**.
+A machine learning web application that analyzes job-posting features and predicts whether a listing is **potentially fraudulent or legitimate**.
 
-```{=html}
-<p>
-```
-`<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">`{=html}
-`<img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch">`{=html}
-`<img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">`{=html}
-`<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">`{=html}
-```{=html}
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch">
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
 </p>
-```
-```{=html}
-<p>
-```
-`<img src="https://img.shields.io/badge/Frontend-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white" alt="Netlify">`{=html}
-`<img src="https://img.shields.io/badge/Backend-Render-46E3B7?style=flat-square&logo=render&logoColor=black" alt="Render">`{=html}
-`<img src="https://img.shields.io/badge/Task-Binary%20Classification-6C63FF?style=flat-square" alt="Binary classification">`{=html}
-```{=html}
-</p>
-```
-**[Live Demo](https://isitfraud.me) · [Backend
-API](https://spot-scam.onrender.com/predict) · [Docker Hub](https://hub.docker.com/repository/docker/cyber4surfer/detect-fraud/general)**
-:::
 
-------------------------------------------------------------------------
+<p align="center">
+  <img src="https://img.shields.io/badge/Frontend-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white" alt="Netlify">
+  <img src="https://img.shields.io/badge/Backend-Render-46E3B7?style=flat-square&logo=render&logoColor=black" alt="Render">
+  <img src="https://img.shields.io/badge/Task-Binary%20Classification-6C63FF?style=flat-square" alt="Binary classification">
+</p>
+
+**[Live Demo](https://isitfraud.me) · [Backend API](https://spot-scam.onrender.com/predict) · [Docker Hub](https://hub.docker.com/repository/docker/cyber4surfer/detect-fraud/general)**
+
+</div>
+
+---
 
 ## Overview
 
-JobFraud is an end-to-end machine learning project designed to classify
-job postings as **fraudulent (class 1)** or **legitimate (class 0)**
-based on structured features extracted from a job listing.
+JobFraud is an end-to-end machine learning project designed to classify job postings as **fraudulent (class 1)** or **legitimate (class 0)** based on structured features extracted from a job listing.
 
-The project covers the full path from dataset analysis and feature
-selection to model training, evaluation, API development,
-containerization, and cloud deployment. A lightweight HTML frontend
-sends job-posting information to a FastAPI backend and displays the
-model's prediction.
+The project covers the full path from dataset analysis and feature selection to model training, evaluation, API development, containerization, and cloud deployment. A lightweight HTML frontend sends job-posting information to a FastAPI backend and displays the model's prediction.
 
-> **Important:** This tool provides a model-based risk indication, not a
-> guarantee that a job posting is genuine or fraudulent. Predictions
-> should not replace independent verification.
+> **Important:** This tool provides a model-based risk indication, not a guarantee that a job posting is genuine or fraudulent. Predictions should not replace independent verification.
 
 ## Live Application
 
 **Try it:** [Open the deployed frontend](https://isitfraud.me)
 
-```{=html}
 <!-- Replace this placeholder with a screenshot committed to your repository. -->
-```
-```{=html}
 <p align="center">
-```
-`<img src="docs/demo.png" alt="JobFraud application preview" width="850">`{=html}
-```{=html}
+  <img src="docs/demo.png" alt="JobFraud application preview" width="850">
 </p>
-```
+
 ## Key Features
 
 -   **Binary classification:** estimates whether a job posting belongs
@@ -471,8 +451,8 @@ credentials in frontend code or commit them to GitHub.
 -   LinkedIn: [ashutosh-nayak-90y](https://www.linkedin.com/in/ashutosh-nayak-90y)
 
 ------------------------------------------------------------------------
+<div align="center">
 
-::: {align="center"}
-**Built to explore practical machine learning, model evaluation, API
-development, and deployment.**
-:::
+**Built to explore practical machine learning, model evaluation, API development, and deployment.**
+
+</div>
