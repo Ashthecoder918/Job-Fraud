@@ -275,25 +275,29 @@ approximately **0.89**
 
 ## Project Structure
 
-The structure below is a suggested representation. Adjust file and
-directory names to match the actual repository.
-
-``` text
-JobFraud/
-├── backend/
-│   ├── main.py                 # FastAPI application
-│   ├── model.pt                # Saved FNN weights/model
-│   ├── scaler.pkl              # Fitted StandardScaler
-│   ├── requirements.txt        # Backend dependencies
-│   └── Dockerfile              # Backend container configuration
-├── frontend/
-│   └── index.html              # User interface
+```text
+├── Backend/
+│   ├── structure_validation/
+│   │   └── provider.py
+│   ├── trained_model/
+│   │   ├── fraud_detection_model.pt
+│   │   └── scaler.pkl
+│   ├── .dockerignore
+│   ├── Dockerfile
+│   ├── main.py
+│   └── requirements.txt
+├── Frontend/
+│   └── index.html
 ├── docs/
-│   ├── demo.png                # Application screenshot
-│   └── architecture.png        # Optional architecture image
+│   └── demo.png
+├── .gitattributes
 ├── .gitignore
-└── README.md
+├── LICENSE
+├── Model.ipynb
+├── README.md
+└── requirements.txt
 ```
+
 
 Do not commit large datasets, secrets, API keys, or other sensitive
 files. If your model artifacts are too large for normal Git hosting,
