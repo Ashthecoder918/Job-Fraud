@@ -430,6 +430,18 @@ input feature order, API schema, CORS origins, and prediction threshold
 are consistent with the training pipeline. Never expose private
 credentials in frontend code or commit them to GitHub.
 
+## Dataset
+
+The project uses a job-posting dataset containing approximately
+1 million records, with 33 original features and a binary
+target label indicating whether a job posting is fraudulent
+or legitimate.
+
+The dataset was analyzed and preprocessed to retain 12 relevant
+input features and 1 target label.
+
+📂 **Dataset Access:** [Download Dataset from Google Drive](https://drive.google.com/drive/folders/1oYoAarJd2AwK59pNadDrJ0iiaB6z2hLP?usp=sharing)
+
 ## Limitations and Future Improvements
 
 -   Evaluate the model on a representative, untouched test set and
